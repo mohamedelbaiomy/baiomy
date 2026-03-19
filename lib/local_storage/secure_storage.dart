@@ -22,7 +22,7 @@ import 'storage_exception.dart';
 class BaiomySecureStorage {
   BaiomySecureStorage._()
     : _storage = const FlutterSecureStorage(
-        aOptions: AndroidOptions(encryptedSharedPreferences: true),
+        aOptions: AndroidOptions(resetOnError: true),
         iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
       );
 
