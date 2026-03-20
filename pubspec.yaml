@@ -1,6 +1,6 @@
 name: baiomy
 description: "A Flutter toolkit for local storage, secure storage, password encryption, Egyptian ID parsing, input validation, formatters, and reusable widgets"
-version: 0.0.2
+version: 0.0.3
 repository: "https://github.com/mohamedelbaiomy/baiomy"
 
 environment:

@@ -9,4 +9,8 @@
 
 ## 0.0.2
 
-* small changes in secure storage & License & pubspec.yaml file
+* ── Small changes in secure storage & License & pubspec.yaml file
+
+## 0.0.3
+
+* ── Update License & Readme file

@@ -506,15 +506,143 @@ lib/
 ## ⚖️ License
 
 ```
+BAIOMY PROPRIETARY SOFTWARE LICENSE
+
+================================================================================
 Copyright (c) 2026 Mohamed Elbaiomy. All Rights Reserved.
+================================================================================
 
-This software is proprietary. Unauthorized copying, modification,
-distribution, or use of this package, via any medium, is strictly
-prohibited without prior written permission from the author.
+IMPORTANT — READ CAREFULLY BEFORE USING THIS SOFTWARE.
+
+This license agreement ("Agreement") is a legal agreement between you
+("Licensee") and the author of this software package ("Licensor", "Mohamed Elbaiomy").
+By accessing, downloading, copying, installing, or using any part of this
+software, its source code, documentation, or any associated files
+(collectively, the "Software"), you agree to be bound by the terms of this
+Agreement. If you do not agree, you must immediately delete all copies of the
+Software and cease all use.
+
+────────────────────────────────────────────────────────────────────────────────
+1. GRANT OF LICENSE
+────────────────────────────────────────────────────────────────────────────────
+
+No license is granted under this Agreement unless explicitly authorized in
+writing by Mohamed Elbaiomy. Mohamed reserves ALL rights to this Software,
+including but not limited to the right to use, copy, modify, merge, publish,
+distribute, sublicense, and sell copies of the Software.
+
+────────────────────────────────────────────────────────────────────────────────
+2. RESTRICTIONS
+────────────────────────────────────────────────────────────────────────────────
+
+Unless you have received prior WRITTEN PERMISSION from the Licensor, you are
+STRICTLY PROHIBITED from:
+
+  a) Using this Software, in whole or in part, for any personal, academic,
+     commercial, or non-commercial project.
+
+  b) Copying, reproducing, or duplicating the Software or any portion thereof.
+
+  c) Modifying, adapting, translating, reverse engineering, decompiling,
+     disassembling, or creating derivative works based on the Software.
+
+  d) Distributing, publishing, sublicensing, selling, renting, leasing, or
+     transferring the Software or any rights therein to any third party.
+
+  e) Incorporating the Software or any part of it into another software
+     package, library, product, or service.
+
+  f) Removing, altering, or obscuring any copyright notice, license text,
+     attribution, or proprietary marking included in the Software.
+
+  g) Using the name "Baiomy", the package name, or any associated branding
+     to endorse or promote products derived from this Software without prior
+     written consent.
+
+  h) Uploading, mirroring, or re-hosting this Software on any public or
+     private repository, platform, or registry (including but not limited to
+     pub.dev, GitHub, GitLab, Bitbucket, or npm) without explicit written
+     authorization from the Licensor.
+
+────────────────────────────────────────────────────────────────────────────────
+3. OWNERSHIP
+────────────────────────────────────────────────────────────────────────────────
+
+The Software is proprietary to Mohamed Elbaiomy and is protected by copyright law
+and international treaty provisions. The Licensor retains exclusive ownership
+of all intellectual property rights in and to the Software, including all
+copies, modifications, and derivative works, regardless of who created them.
+
+This Agreement does not transfer any ownership, title, or intellectual property
+rights in the Software to the Licensee. Any use of the Software not expressly
+permitted by this Agreement is strictly prohibited and constitutes a violation
+of the Licensor's intellectual property rights.
+
+────────────────────────────────────────────────────────────────────────────────
+4. NO WARRANTIES
+────────────────────────────────────────────────────────────────────────────────
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, OR NON-INFRINGEMENT. THE LICENSOR
+DOES NOT WARRANT THAT THE SOFTWARE WILL MEET YOUR REQUIREMENTS, OPERATE WITHOUT
+INTERRUPTION, OR BE ERROR-FREE.
+
+────────────────────────────────────────────────────────────────────────────────
+5. LIMITATION OF LIABILITY
+────────────────────────────────────────────────────────────────────────────────
+
+IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, CONSEQUENTIAL, OR PUNITIVE DAMAGES (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, LOSS OF PROFITS, BUSINESS INTERRUPTION, OR LOSS OF
+GOODWILL) ARISING OUT OF OR IN CONNECTION WITH THE USE OR INABILITY TO USE
+THE SOFTWARE, EVEN IF THE LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.
+
+────────────────────────────────────────────────────────────────────────────────
+6. ENFORCEMENT
+────────────────────────────────────────────────────────────────────────────────
+
+Any unauthorized use, reproduction, distribution, or modification of this
+Software constitutes copyright infringement and will be subject to civil and
+criminal penalties under applicable law, including international copyright
+treaties. The Licensor reserves the right to seek all available legal and
+equitable remedies, including injunctive relief and monetary damages.
+
+────────────────────────────────────────────────────────────────────────────────
+7. TERMINATION
+────────────────────────────────────────────────────────────────────────────────
+
+Any rights conditionally granted by Mohamed Elbaiomy (if any) terminate
+immediately and automatically upon any breach of this Agreement by the
+Licensee. Upon termination, the Licensee must destroy all copies of the
+Software in their possession or control.
+
+────────────────────────────────────────────────────────────────────────────────
+8. GOVERNING LAW
+────────────────────────────────────────────────────────────────────────────────
+
+This Agreement shall be governed by and construed in accordance with the laws
+of the Arab Republic of Egypt, without regard to its conflict of law provisions.
+Any dispute arising under or relating to this Agreement shall be subject to the
+exclusive jurisdiction of the competent courts of Egypt.
+
+────────────────────────────────────────────────────────────────────────────────
+9. CONTACT
+────────────────────────────────────────────────────────────────────────────────
+
+For licensing inquiries, permission requests, or any questions regarding this
+Agreement, contact the Licensor at:
+
+  Author  : Mohamed Elbaiomy
+  Project : https://github.com/mohamedelbaiomy/baiomy
+
+────────────────────────────────────────────────────────────────────────────────
+ALL RIGHTS RESERVED. UNAUTHORIZED USE IS STRICTLY PROHIBITED.
+────────────────────────────────────────────────────────────────────────────────
+
 ```
-
-See the [LICENSE](LICENSE) file for full details.
-
+<!-- See the [LICENSE](LICENSE) file for full details. -->
 ---
 
 <p align="center">
