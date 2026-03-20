@@ -431,6 +431,9 @@ Reactive widget that rebuilds when a `ValueListenable` changes.
 ### BaiomyLoadingItem
 Loading skeleton / overlay widget (from `widgets/loading/loading_item.dart`).
 
+### BaiomyKeepAlivePage
+utility wrapper widget designed to preserve the state of its child widget, preventing it from being disposed of when it moves out of view
+
 ---
 
 ## 🛡️ Error Handling

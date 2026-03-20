@@ -14,3 +14,7 @@
 ## 0.0.3
 
 * ── Update License & Readme file
+
+## 0.0.4
+
+* ── Add KeepAlivePage widget
