@@ -18,3 +18,7 @@
 ## 0.0.4
 
 * ── Add KeepAlivePage widget
+
+## 0.0.5
+
+* ── Add prefixIcon to input decoration

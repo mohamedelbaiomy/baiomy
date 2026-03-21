@@ -4,6 +4,7 @@ InputDecoration inputDecoration(
   String hintText,
   ThemeData theme, {
   Widget? suffixIcon,
+  Widget? prefixIcon,
   bool isOutlined = false,
   String? helperText,
 }) => isOutlined
@@ -29,6 +30,7 @@ InputDecoration inputDecoration(
           borderSide: const .new(color: Colors.red),
         ),
         suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
       )
     : InputDecoration(
         hintText: hintText,
@@ -48,4 +50,5 @@ InputDecoration inputDecoration(
           borderSide: .new(color: Colors.red),
         ),
         suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
       );
