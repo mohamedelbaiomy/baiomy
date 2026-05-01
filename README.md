@@ -12,14 +12,15 @@ import 'package:baiomy/baiomy.dart';
 
 ## 📦 What's Inside
 
-| Module | Classes / APIs |
-|---|---|
-| 🗂️ **Local Storage** | `BaiomySharedPrefs` · `BaiomySecureStorage` · `StorageException` |
-| 🔐 **Password Encryption** | `BaiomyPasswordEncryption` · `PasswordHasher` · `EncryptedPayload` · `HashedPassword` · `CryptoException` |
-| 🌍 **Egyptian ID Parser** | `BaiomyEgyptianIdParser` |
-| 🧩 **Extensions** | `BuildContextExtension` · `FormAutoScroll` · `EmailValidator` · `PasswordValidator` · `NotesValidator` · `DomainValidator` |
-| 🛠️ **Utils** | `BaiomyInputFormatters` · `inputDecoration()` |
-| 🎨 **Widgets** | `AppToasts` · `AvatarGlow` · `ConditionalBuilder` · `CustomSizedBox` · `CustomValueListenable` · `LoadingItem` |
+| Module                     | Classes / APIs                                                                                                             |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| 🗂️ **Local Storage**      | `BaiomySharedPrefs` · `BaiomySecureStorage` · `StorageException`                                                           |
+| 🔐 **Password Encryption** | `BaiomyPasswordEncryption` · `PasswordHasher` · `EncryptedPayload` · `HashedPassword` · `CryptoException`                  |
+| 🌍 **Egyptian ID Parser**  | `BaiomyEgyptianIdParser`                                                                                                   |
+| 🚧 **Routes**              | `BaiomyNavKit`                                                                                                                   |
+| 🧩 **Extensions**          | `BuildContextExtension` · `FormAutoScroll` · `EmailValidator` · `PasswordValidator` · `NotesValidator` · `DomainValidator` |
+| 🛠️ **Utils**              | `BaiomyInputFormatters` · `inputDecoration()`                                                                              |
+| 🎨 **Widgets**             | `AppToasts` · `AvatarGlow` · `ConditionalBuilder` · `CustomSizedBox` · `CustomValueListenable` · `LoadingItem`             |
 
 ---
 
@@ -333,6 +334,198 @@ final isValid = _formKey.validateAndScroll(); // bool
 ```
 
 ---
+# BaiomyNavKit
+
+## Features
+
+| Feature | Detail |
+|---|---|
+| **Named route validation** | Typos are caught at debug-time via `assert` |
+| **5 transition styles** | bottomToUpWithFade · fade · slideWithFade · slideOnly · cupertino |
+| **Platform-aware defaults** | Cupertino on iOS, fade/slide on Android |
+| **Semantic push methods** | `pushWithSlideUp`, `pushWithFade`, `pushWithSlideAndFade`, `pushWithSlide` |
+| **Replace / clear-stack** | `pushReplacement`, `pushAndRemoveAll`, `replaceStack` |
+| **Direct widget push** | No route name required — great for modal sheets |
+| **`BuildContext` extensions** | `context.navPush(...)` · `context.navPop()` · `context.navCanPop` |
+| **Zero dependencies** | Only Flutter itself |
+
+## Usage
+
+### 1 — Declare your routes
+
+Create one file that owns every route string in your app. Extending `NavRoutes`
+and listing them in `get all` is what enables debug-time typo detection.
+
+```dart
+// lib/routes/routes.dart
+import 'package:flutter_nav_kit/flutter_nav_kit.dart';
+ 
+class Routes extends NavRoutes {
+  static const String home    = '/home';
+  static const String login   = '/login';
+  static const String detail  = '/detail';
+  static const String profile = '/profile';
+ 
+  @override
+  List<String> get all => [home, login, detail, profile];
+}
+```
+
+### 2 — Initialise and wire up
+
+Call `BaiomyNavKit.init` once before `runApp`, then pass `NavRouteGenerator` to
+`MaterialApp.onGenerateRoute`. The `builders` map is the only place you ever
+write the mapping between a route name and a screen widget.
+
+```dart
+// lib/main.dart
+import 'package:flutter_nav_kit/flutter_nav_kit.dart';
+import 'routes/routes.dart';
+ 
+void main() {
+  BaiomyNavKit.init(routes: Routes()); // turns on assert-based route validation
+  runApp(const MyApp());
+}
+ 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+ 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      initialRoute: Routes.home,
+      onGenerateRoute: NavRouteGenerator(
+        routes: Routes(),
+        noRouteScreen: const NotFoundScreen(), // shown for unknown routes
+        firstRoute: Routes.home,
+        builders: {
+          // args is the value you passed via the `arguments:` parameter,
+          // with all transition metadata already stripped out for you.
+          Routes.home:    (_)    => const HomeScreen(),
+          Routes.login:   (_)    => const LoginScreen(),
+          Routes.detail:  (args) => DetailScreen(item: args as MyItem),
+          Routes.profile: (args) => ProfileScreen(userId: args as String),
+        },
+      ).generateRoute,
+    );
+  }
+}
+```
+
+### 3 — Push screens
+
+#### Simple push — platform-default transition
+
+On iOS this uses the native Cupertino swipe; on Android it uses a fade.
+No configuration required.
+
+```dart
+BaiomyNavKit.push(context, Routes.home);
+BaiomyNavKit.push(context, Routes.detail, arguments: myItem);
+```
+
+#### Push with a specific animation
+
+```dart
+BaiomyNavKit.pushWithSlideUp(context, Routes.detail, arguments: myItem);
+BaiomyNavKit.pushWithFade(context, Routes.settings);
+BaiomyNavKit.pushWithSlide(context, Routes.profile, arguments: userId);
+BaiomyNavKit.pushWithSlideAndFade(context, Routes.detail);
+```
+
+#### Replace the current screen (no back button left behind)
+
+```dart
+BaiomyNavKit.pushReplacement(context, Routes.home);
+BaiomyNavKit.pushReplacementWithFade(context, Routes.login);
+BaiomyNavKit.pushReplacementWithSlideUp(context, Routes.onboarding);
+```
+
+#### Clear the entire stack (logout, post-login redirect, splash → home)
+
+```dart
+BaiomyNavKit.pushAndRemoveAll(context, Routes.login);
+BaiomyNavKit.pushAndRemoveAllWithFade(context, Routes.home);
+BaiomyNavKit.pushAndRemoveAllWithSlideUp(context, Routes.dashboard);
+```
+
+#### Replace the whole stack with multiple screens
+
+Useful for deep-link handling — clears the stack, pushes the first route, then
+pushes the rest on top so the back-stack is exactly as you specify.
+
+```dart
+BaiomyNavKit.replaceStack(context, [Routes.home, Routes.detail]);
+```
+
+#### Avoid pushing the same screen twice
+
+```dart
+// No-op if the user is already on Routes.home
+BaiomyNavKit.pushIfNotCurrent(context, Routes.home);
+```
+
+### 4 — Pop / go back
+
+```dart
+BaiomyNavKit.pop(context);                     // simple back
+BaiomyNavKit.pop(context, myResult);           // back with a return value
+BaiomyNavKit.popUntil(context, Routes.home);   // unwind to a specific screen
+BaiomyNavKit.canPop(context);                  // → bool
+```
+
+### 5 — Push a widget directly (no route name needed)
+
+Good for modals, confirmation sheets, or one-off screens you don't want
+registered in the route table.
+
+```dart
+// Lazy builder — widget isn't constructed until the transition begins
+BaiomyNavKit.pushWidget(context, () => const ConfirmationSheet());
+ 
+// Or pass an already-constructed widget
+BaiomyNavKit.pushWidgetWithSlideUp(context, const ConfirmationSheet());
+BaiomyNavKit.pushWidgetWithFade(context, const ConfirmationSheet());
+```
+
+### 6 — Custom transition durations
+
+Every method accepts optional `transitionDuration` and
+`reverseTransitionDuration`. Omit them to use the built-in defaults.
+
+```dart
+BaiomyNavKit.pushWithSlideUp(
+  context,
+  Routes.detail,
+  arguments: myItem,
+  transitionDuration: const Duration(milliseconds: 500),
+  reverseTransitionDuration: const Duration(milliseconds: 350),
+);
+```
+
+### 7 — Context extensions (optional shorthand)
+
+Every `BaiomyNavKit` method has a matching extension on `BuildContext` prefixed with
+`nav`. Use whichever style fits your codebase — they are identical under the
+hood.
+
+```dart
+// These two lines do exactly the same thing:
+BaiomyNavKit.pushWithSlideUp(context, Routes.detail, arguments: item);
+context.navPushWithSlideUp(Routes.detail, arguments: item);
+ 
+// Other examples
+context.navPush(Routes.home);
+context.navPushWithFade(Routes.settings);
+context.navPushReplacement(Routes.login);
+context.navPushAndRemoveAll(Routes.home);
+context.navPop();
+context.navPopUntil(Routes.home);
+bool can = context.navCanPop;
+context.navPushWidgetWithSlideUp(const MyModal());
+```
+
+---
 
 ## 🛠️ Utils
 
@@ -483,6 +676,14 @@ lib/
 │   ├── shared_preferences.dart        → BaiomySharedPrefs
 │   ├── secure_storage.dart            → BaiomySecureStorage
 │   └── storage_exception.dart         → StorageException
+├── routes/
+│   ├── src/
+│   │   ├── nav_extensions.dart      → NavKitContext (extension)
+│   │   ├── nav_kit.dart             → BaiomyNavKit
+│   │   ├── nav_route_generator.dart → NavRouteGenerator
+│   │   ├── nav_routes.dart          → NavRoutes
+│   │   └── nav_transition_type.dart → NavTransitionType (enum)
+│   └── flutter_nav_kit.dart
 ├── password_encryption/
 │   ├── password_encryption.dart       → BaiomyPasswordEncryption
 │   ├── password_hasher.dart           → PasswordHasher
