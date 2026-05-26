@@ -627,6 +627,9 @@ Loading skeleton / overlay widget (from `widgets/loading/loading_item.dart`).
 ### BaiomyKeepAlivePage
 utility wrapper widget designed to preserve the state of its child widget, preventing it from being disposed of when it moves out of view
 
+### Segmented Circular Next Button
+provides a circular next button with an animated segmented progress ring for onboarding flows
+
 ---
 
 ## 🛡️ Error Handling
@@ -701,6 +704,7 @@ lib/
 │   ├── avatar_glow.dart
 │   ├── conditional_builder.dart
 │   ├── custom_sized_box.dart
+│   ├── segmented_circular_next_button.dart
 │   └── custom_value_listenable.dart
 └── baiomy.dart
 ```

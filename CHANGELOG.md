@@ -26,3 +26,7 @@
 ## 0.0.6
 
 * ── Routes
+
+## 0.0.7
+
+* ── Add Segmented Circular Next Button Widget
