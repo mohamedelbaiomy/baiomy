@@ -21,6 +21,9 @@ export 'extensions/validator/email_validator.dart';
 export 'extensions/validator/notes_validator.dart';
 export 'extensions/validator/password_validator.dart';
 
+// ── Routes ────────────────────────────────────────────────────────
+export 'routes/flutter_nav_kit.dart';
+
 // ── Utils ─────────────────────────────────────────────────────────────
 export 'utils/app_input_formatters.dart';
 export 'utils/logger_class.dart';

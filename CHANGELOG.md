@@ -37,3 +37,7 @@
 * ── Add BaiomyAuthRepo
 * ── Add BaiomyFirestoreRepo
 * ── Add BaiomyStorageRepo
+
+## 0.0.9
+
+* ── fix routes issue
