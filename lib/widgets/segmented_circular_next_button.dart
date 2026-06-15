@@ -20,8 +20,8 @@ import 'package:flutter/material.dart';
 ///
 /// All visual parameters are optional and fall back to sensible defaults so
 /// the widget works with zero configuration beyond the required fields.
-class SegmentedCircularNextButton extends StatefulWidget {
-  const SegmentedCircularNextButton({
+class BaiomySegmentedCircularNextButton extends StatefulWidget {
+  const BaiomySegmentedCircularNextButton({
     super.key,
     required this.currentPage,
     required this.totalPages,
@@ -85,12 +85,12 @@ class SegmentedCircularNextButton extends StatefulWidget {
   final Curve animationCurve;
 
   @override
-  State<SegmentedCircularNextButton> createState() =>
+  State<BaiomySegmentedCircularNextButton> createState() =>
       _SegmentedCircularNextButtonState();
 }
 
 class _SegmentedCircularNextButtonState
-    extends State<SegmentedCircularNextButton>
+    extends State<BaiomySegmentedCircularNextButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _animCtrl;
   late Animation<double> _progressAnim;
@@ -119,7 +119,7 @@ class _SegmentedCircularNextButtonState
   }
 
   @override
-  void didUpdateWidget(SegmentedCircularNextButton oldWidget) {
+  void didUpdateWidget(BaiomySegmentedCircularNextButton oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     // Re-animate whenever the page changes.

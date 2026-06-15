@@ -12,15 +12,16 @@ import 'package:baiomy/baiomy.dart';
 
 ## 📦 What's Inside
 
-| Module                     | Classes / APIs                                                                                                             |
-|----------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| 🗂️ **Local Storage**      | `BaiomySharedPrefs` · `BaiomySecureStorage` · `StorageException`                                                           |
-| 🔐 **Password Encryption** | `BaiomyPasswordEncryption` · `PasswordHasher` · `EncryptedPayload` · `HashedPassword` · `CryptoException`                  |
-| 🌍 **Egyptian ID Parser**  | `BaiomyEgyptianIdParser`                                                                                                   |
-| 🚧 **Routes**              | `BaiomyNavKit`                                                                                                                   |
-| 🧩 **Extensions**          | `BuildContextExtension` · `FormAutoScroll` · `EmailValidator` · `PasswordValidator` · `NotesValidator` · `DomainValidator` |
-| 🛠️ **Utils**              | `BaiomyInputFormatters` · `inputDecoration()`                                                                              |
-| 🎨 **Widgets**             | `AppToasts` · `AvatarGlow` · `ConditionalBuilder` · `CustomSizedBox` · `CustomValueListenable` · `LoadingItem`             |
+| Module                     | Classes / APIs                                                                                                                                                                  |
+|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 🗂️ **Local Storage**      | `BaiomySharedPrefs` · `BaiomySecureStorage` · `StorageException`                                                                                                                |
+| 🔐 **Password Encryption** | `BaiomyPasswordEncryption` · `PasswordHasher` · `EncryptedPayload` · `HashedPassword` · `CryptoException`                                                                       |
+| 🌍 **Egyptian ID Parser**  | `BaiomyEgyptianIdParser`                                                                                                                                                        |
+| 🚧 **Routes**              | `BaiomyNavKit`                                                                                                                                                                  |
+| 🪄 **Firebase**            | `BaiomyStorageRepo` · `BaiomyAuthRepo` · `BaiomyFirestoreRepo`                                                                                                                  |
+| 🧩 **Extensions**          | `BuildContextExtension` · `FormAutoScroll` · `EmailValidator` · `PasswordValidator` · `NotesValidator` · `DomainValidator`                                                      |
+| 🛠️ **Utils**              | `BaiomyInputFormatters` · `inputDecoration()` · `BaiomyLogger` · `BaiomyGoogleMapsExtractor`                                                                                    |
+| 🎨 **Widgets**             | `BaiomyToast` · `BaiomyAvatarGlow` · `BaiomyConditionalBuilder` · `CustomSizedBox` · `BaiomyValueListenableBuilder2` · `BaiomyLoadingItem` · `BaiomySegmentedCircularNextButton` |
 
 ---
 
@@ -600,6 +601,338 @@ TextFormField(
 )
 ```
 
+### BaiomyGoogleMapsExtractor
+
+Extracts latitude and longitude coordinates from any Google Maps URL format.
+
+```dart
+final url = 'https://maps.app.goo.gl/mWtb4a1cUE9zMWya7';
+final coordinates = await BaiomyGoogleMapsExtractor.processGoogleMapsUrl(url);
+
+if (coordinates != null) {
+print('Latitude: ${coordinates['latitude']}');
+print('Longitude: ${coordinates['longitude']}');
+} else {
+print('Failed to extract coordinates');
+}
+```
+Supported URL formats:
+
+* Standard map URLs with coordinates
+* Place URLs with embedded coordinates
+* Shortened URLs (goo.gl, maps.app.goo.gl)
+* Street View URLs
+* Directions URLs
+* Embedded map URLs
+* Mobile deep links
+* Plus codes
+* International Google domain variants
+
+Available methods:
+
+```dart
+// Process any Google Maps URL (handles shortening + extraction)
+final coords = await BaiomyGoogleMapsExtractor.processGoogleMapsUrl(url);
+
+// Extract coordinates from an already-expanded URL
+final coords = BaiomyGoogleMapsExtractor.extractCoordinates(expandedUrl);
+
+// Check if a URL is a Google Maps URL
+final bool isMaps = BaiomyGoogleMapsExtractor.isGoogleMapsUrl(url);
+
+// Extract additional metadata (zoom level, map type, place name)
+final metadata = BaiomyGoogleMapsExtractor.extractMetadata(url);
+// Returns: { 'zoom': 15, 'mapType': 'roadmap', 'placeName': 'Cairo Tower' }
+```
+
+## 🔥 Firebase
+
+> All Firebase modules require `firebase_core` to be initialized before use.
+
+---
+
+### BaiomyAuthRepo — Authentication
+
+A singleton repository that wraps Firebase Authentication with clean, async APIs for email/password, guest accounts, profile updates, and guest-to-permanent upgrades.
+
+```dart
+final auth = BaiomyAuthRepo.instance;
+
+// ── Sign up / Sign in ──────────────────────────────────────────────────
+final credential = await auth.signUpWithEmailAndPassword(email, password);
+final credential = await auth.signInWithEmailAndPassword(email, password);
+final guestCred = await auth.signInAnonymously();
+
+// ── Current user state ─────────────────────────────────────────────────
+User? user = auth.currentUser;
+String? uid = auth.uid;
+bool signedIn = auth.isSignedIn;
+bool guest = auth.isGuest;
+Stream<User?> authChanges = auth.authStateChanges;
+
+// ── Email verification ─────────────────────────────────────────────────
+await auth.sendEmailVerification();
+bool isVerified = await auth.checkEmailVerification();
+
+// ── Profile updates ────────────────────────────────────────────────────
+await auth.updateUserName('John Doe');
+await auth.updateUserPassword('newSecurePass123');
+
+// ── Password reset ─────────────────────────────────────────────────────
+await auth.sendPasswordResetEmail(email);
+bool oldPasswordOk = await auth.checkOldPassword(email, oldPassword);
+
+// ── Guest → permanent upgrade ──────────────────────────────────────────
+await auth.upgradeGuestToUser(
+email: 'user@example.com',
+password: 'newPassword',
+name: 'John',
+phone: '+201234567890',
+);
+
+// ── Sign out ───────────────────────────────────────────────────────────
+await auth.logOut();
+
+// ── User-friendly error messages ───────────────────────────────────────
+try {
+await auth.signInWithEmailAndPassword(email, password);
+} on FirebaseAuthException catch (e) {
+final message = auth.getAuthErrorMessage(e);
+showToast(message);
+}
+```
+### BaiomyFirestoreRepo — Cloud Firestore
+
+A singleton repository providing CRUD, real-time streams, pagination, batch writes, and transactions for Firestore.
+
+```dart
+final firestore = BaiomyFirestoreRepo.instance;
+
+// ── Write ──────────────────────────────────────────────────────────────
+// Create / overwrite a document
+await firestore.createCollectionWithDoc(
+collectionName: 'users',
+docName: 'uid123',
+data: {'name': 'Alice', 'email': 'alice@example.com'},
+);
+
+// Auto‑generated document ID
+final docRef = await firestore.createCollection(
+collectionName: 'posts',
+data: {'title': 'Hello', 'content': '...'},
+);
+
+// Update specific fields
+await firestore.updateData(
+collectionName: 'users',
+docName: 'uid123',
+data: {'lastLogin': FieldValue.serverTimestamp()},
+);
+
+// Sub‑collection operations
+await firestore.createSubCollectionWithDoc(
+firstCollectionName: 'users',
+secondCollectionName: 'orders',
+firstDocName: 'uid123',
+secondDocName: 'order456',
+data: {'total': 99.99},
+);
+
+// ── Read ───────────────────────────────────────────────────────────────
+// Get all documents
+final QuerySnapshot allUsers = await firestore.getData(collectionName: 'users');
+
+// Get single document
+final DocumentSnapshot userDoc = await firestore.getDocData('users', 'uid123');
+
+// Query with conditions
+final QuerySnapshot adults = await firestore.getDataWhere(
+collectionName: 'users',
+field: 'age',
+value: 18,
+orderByField: 'name',
+limit: 10,
+);
+
+// Pagination
+final firstPage = await firestore.getDataWithPagination(
+collectionName: 'users',
+limit: 20,
+orderByField: 'createdAt',
+);
+final lastDoc = firstPage.docs.last;
+final secondPage = await firestore.getDataWithPagination(
+collectionName: 'users',
+limit: 20,
+lastDocument: lastDoc,
+);
+
+// Check existence
+final exists = await firestore.documentExists(
+collectionName: 'users',
+docName: 'uid123',
+);
+
+// ── Real‑time streams ─────────────────────────────────────────────────
+// Single document stream
+Stream<DocumentSnapshot> userStream = firestore.documentStream(
+collectionName: 'users',
+docName: 'uid123',
+);
+
+// Collection stream with filters
+Stream<QuerySnapshot> recentPosts = firestore.collectionStream(
+collectionName: 'posts',
+whereField: 'published',
+whereValue: true,
+orderByField: 'timestamp',
+descending: true,
+limit: 50,
+);
+
+// Sub‑collection stream
+Stream<QuerySnapshot> orderStream = firestore.subCollectionStream(
+firstCollectionName: 'users',
+secondCollectionName: 'orders',
+docName: 'uid123',
+);
+
+// ── Batch & transactions ───────────────────────────────────────────────
+// Batch write
+await firestore.batchWrite((batch, db) {
+final userRef = db.collection('users').doc('uid123');
+batch.update(userRef, {'points': 10});
+final logRef = db.collection('logs').doc();
+batch.set(logRef, {'action': 'add_points'});
+});
+
+// Transaction
+await firestore.runTransaction((tx) async {
+final snap = await tx.get(userRef);
+final newPoints = (snap.data()?['points'] ?? 0) + 10;
+tx.update(userRef, {'points': newPoints});
+});
+
+// ── Delete ─────────────────────────────────────────────────────────────
+// Delete single document
+await firestore.deleteData(collectionName: 'users', documentId: 'uid123');
+
+// Delete all documents in a sub‑collection
+await firestore.deleteSubCollection(
+firstCollectionName: 'users',
+secondCollectionName: 'orders',
+docName: 'uid123',
+);
+```
+### BaiomyStorageRepo — Firebase Storage
+
+A singleton repository for uploading, downloading, updating, and deleting files with progress tracking and metadata support.
+
+final storage = BaiomyStorageRepo.instance;
+
+```dart
+// ── Upload ─────────────────────────────────────────────────────────────
+// Upload a local file
+final imageUrl = await storage.uploadFile(
+path: 'users/uid123/avatar.jpg',
+file: File('/local/avatar.jpg'),
+metadata: SettableMetadata(contentType: 'image/jpeg'),
+);
+
+// Upload raw bytes (e.g., from memory)
+final pdfUrl = await storage.uploadBytes(
+path: 'invoices/invoice123.pdf',
+bytes: pdfBytes,
+);
+
+// Upload from a string (base64, text, etc.)
+final url = await storage.uploadFromString(
+path: 'logs/error.log',
+fileUrl: errorLogText,
+format: PutStringFormat.plain,
+);
+
+// Upload with progress tracking
+final task = storage.uploadFileWithProgress(
+path: 'videos/intro.mp4',
+file: videoFile,
+);
+task.snapshotEvents.listen((snapshot) {
+final progress = snapshot.bytesTransferred / snapshot.totalBytes;
+print('${(progress * 100).toStringAsFixed(1)}%');
+});
+final snapshot = await task;
+final videoUrl = await snapshot.ref.getDownloadURL();
+
+// ── Read / download ────────────────────────────────────────────────────
+// Get download URL
+final url = await storage.getDownloadUrl(path: 'users/uid123/avatar.jpg');
+
+// Get file metadata
+final FullMetadata meta = await storage.getMetadata(path: 'files/data.json');
+print('Size: ${meta.size}, Type: ${meta.contentType}');
+
+// Download bytes (max 10 MB by default)
+final Uint8List? data = await storage.downloadBytes(
+path: 'documents/report.pdf',
+maxSize: 5 * 1024 * 1024, // 5 MB
+);
+
+// List files in a folder
+final ListResult result = await storage.listItems(path: 'users/uid123');
+for (final ref in result.items) {
+print(ref.name);
+}
+
+// Recursive list all (use with caution on large trees)
+final ListResult all = await storage.listAll(path: 'users');
+
+// Paginated listing
+final page1 = await storage.listItemsPaginated(
+path: 'photos',
+maxResults: 20,
+);
+final page2 = await storage.listItemsPaginated(
+path: 'photos',
+maxResults: 20,
+pageToken: page1.nextPageToken,
+);
+
+// Check if a file exists
+final exists = await storage.fileExists(path: 'users/uid123/avatar.jpg');
+
+// ── Update ─────────────────────────────────────────────────────────────
+// Replace entire file
+await storage.updateFile(
+path: 'users/uid123/avatar.jpg',
+newFile: File('/new_avatar.jpg'),
+);
+
+// Replace with bytes
+await storage.updateBytes(
+path: 'users/uid123/avatar.jpg',
+newBytes: newImageBytes,
+);
+
+// Update only metadata (no re‑upload)
+await storage.updateMetadata(
+path: 'users/uid123/avatar.jpg',
+metadata: SettableMetadata(customMetadata: {'uploadedBy': 'admin'}),
+);
+
+// ── Delete ─────────────────────────────────────────────────────────────
+// Delete a single file
+await storage.deleteFile(path: 'users/uid123/old_avatar.jpg');
+
+// Delete all files inside a folder (non‑recursive)
+await storage.deleteFolder(path: 'temp/session123');
+
+// Recursively delete entire folder tree (⚠️ use with caution)
+await storage.deleteAll(path: 'users/uid123_old');
+
+```
+⚠️ Important: For large‑scale delete operations (thousands of files), prefer a Cloud Function to avoid timeouts and excessive client‑side work.
+
 ---
 
 ## 🎨 Widgets
@@ -693,9 +1026,14 @@ lib/
 │   ├── encrypted_payload.dart         → EncryptedPayload
 │   ├── hashed_password.dart           → HashedPassword
 │   └── crypto_exception.dart          → CryptoException
+├── firebase/
+│   ├── firestore_repo.dart           → BaiomyFirestoreRepo
+│   ├── authentication_repo.dart      → BaiomyAuthRepo
+│   └── storage_repo.dart             → BaiomyStorageRepo
 ├── utils/
-│   ├── app_input_formatters.dart      → BaiomyInputFormatters
-│   ├── logger_class.dart
+│   ├── app_input_formatters.dart       → BaiomyInputFormatters
+│   ├── logger_class.dart               → BaiomyLogger
+│   ├── google_maps_extractor.dart      → BaiomyGoogleMapsExtractor
 │   └── text_form_field_decoration.dart → inputDecoration()
 ├── widgets/
 │   ├── loading/

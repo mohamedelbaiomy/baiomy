@@ -30,3 +30,10 @@
 ## 0.0.7
 
 * ── Add Segmented Circular Next Button Widget
+
+## 0.0.8
+
+* ── Add BaiomyGoogleMapsExtractor
+* ── Add BaiomyAuthRepo
+* ── Add BaiomyFirestoreRepo
+* ── Add BaiomyStorageRepo

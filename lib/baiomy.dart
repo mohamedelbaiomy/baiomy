@@ -25,6 +25,7 @@ export 'extensions/validator/password_validator.dart';
 export 'utils/app_input_formatters.dart';
 export 'utils/logger_class.dart';
 export 'utils/text_form_field_decoration.dart';
+export 'utils/google_maps_extractor.dart';
 
 // ── Widgets ───────────────────────────────────────────────────────────
 export 'widgets/app_toasts.dart';
@@ -35,3 +36,8 @@ export 'widgets/custom_value_listenable.dart';
 export 'widgets/loading/loading_item.dart';
 export 'widgets/keep_alive_page.dart';
 export 'widgets/segmented_circular_next_button.dart';
+
+// ── Firebase ───────────────────────────────────────────────────────────
+export 'firebase/authentication_repo.dart';
+export 'firebase/firestore_repo.dart';
+export 'firebase/storage_repo.dart';
