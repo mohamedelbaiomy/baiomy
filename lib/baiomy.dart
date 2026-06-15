@@ -12,6 +12,7 @@ export 'password_encryption/crypto_exception.dart';
 
 // ── Egyptian ID Parser ────────────────────────────────────────────────
 export 'egyptian_id_parser/country_id_parser_base.dart';
+export 'egyptian_id_parser/models/models.dart';
 
 // ── Extensions ────────────────────────────────────────────────────────
 export 'extensions/build_context_extensions.dart';
@@ -23,6 +24,11 @@ export 'extensions/validator/password_validator.dart';
 
 // ── Routes ────────────────────────────────────────────────────────
 export 'routes/flutter_nav_kit.dart';
+export 'routes/src/nav_routes.dart';
+export 'routes/src/nav_transition_type.dart';
+export 'routes/src/nav_route_generator.dart';
+export 'routes/src/nav_kit.dart';
+export 'routes/src/nav_extensions.dart';
 
 // ── Utils ─────────────────────────────────────────────────────────────
 export 'utils/app_input_formatters.dart';
