@@ -41,3 +41,7 @@
 ## 0.0.9
 
 * ── fix routes issue
+
+## 1.0.0
+
+* ── Add BaiomyInternetChecker

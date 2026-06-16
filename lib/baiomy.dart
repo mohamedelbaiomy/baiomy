@@ -35,6 +35,7 @@ export 'utils/app_input_formatters.dart';
 export 'utils/logger_class.dart';
 export 'utils/text_form_field_decoration.dart';
 export 'utils/google_maps_extractor.dart';
+export 'utils/baiomy_internet_checker.dart';
 
 // ── Widgets ───────────────────────────────────────────────────────────
 export 'widgets/app_toasts.dart';

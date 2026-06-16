@@ -12,15 +12,15 @@ import 'package:baiomy/baiomy.dart';
 
 ## 📦 What's Inside
 
-| Module                     | Classes / APIs                                                                                                                                                                  |
-|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 🗂️ **Local Storage**      | `BaiomySharedPrefs` · `BaiomySecureStorage` · `StorageException`                                                                                                                |
-| 🔐 **Password Encryption** | `BaiomyPasswordEncryption` · `PasswordHasher` · `EncryptedPayload` · `HashedPassword` · `CryptoException`                                                                       |
-| 🌍 **Egyptian ID Parser**  | `BaiomyEgyptianIdParser`                                                                                                                                                        |
-| 🚧 **Routes**              | `BaiomyNavKit`                                                                                                                                                                  |
-| 🪄 **Firebase**            | `BaiomyStorageRepo` · `BaiomyAuthRepo` · `BaiomyFirestoreRepo`                                                                                                                  |
-| 🧩 **Extensions**          | `BuildContextExtension` · `FormAutoScroll` · `EmailValidator` · `PasswordValidator` · `NotesValidator` · `DomainValidator`                                                      |
-| 🛠️ **Utils**              | `BaiomyInputFormatters` · `inputDecoration()` · `BaiomyLogger` · `BaiomyGoogleMapsExtractor`                                                                                    |
+| Module                     | Classes / APIs                                                                                                                                                                   |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 🗂️ **Local Storage**      | `BaiomySharedPrefs` · `BaiomySecureStorage` · `StorageException`                                                                                                                 |
+| 🔐 **Password Encryption** | `BaiomyPasswordEncryption` · `PasswordHasher` · `EncryptedPayload` · `HashedPassword` · `CryptoException`                                                                        |
+| 🌍 **Egyptian ID Parser**  | `BaiomyEgyptianIdParser`                                                                                                                                                         |
+| 🚧 **Routes**              | `BaiomyNavKit`                                                                                                                                                                   |
+| 🪄 **Firebase**            | `BaiomyStorageRepo` · `BaiomyAuthRepo` · `BaiomyFirestoreRepo`                                                                                                                   |
+| 🧩 **Extensions**          | `BuildContextExtension` · `FormAutoScroll` · `EmailValidator` · `PasswordValidator` · `NotesValidator` · `DomainValidator`                                                       |
+| 🛠️ **Utils**              | `BaiomyInputFormatters` · `inputDecoration()` · `BaiomyLogger` · `BaiomyGoogleMapsExtractor` · `BaiomyInternetChecker`                                                           |
 | 🎨 **Widgets**             | `BaiomyToast` · `BaiomyAvatarGlow` · `BaiomyConditionalBuilder` · `CustomSizedBox` · `BaiomyValueListenableBuilder2` · `BaiomyLoadingItem` · `BaiomySegmentedCircularNextButton` |
 
 ---
@@ -573,6 +573,45 @@ BaiomyInputFormatters.containsEmojis('hello 😊');      // true
 BaiomyInputFormatters.isNumericOnly('12345');           // true
 BaiomyInputFormatters.containsProfanity('some text');  // false
 BaiomyInputFormatters.getCleanCharacterCount('hi 😊'); // 3
+
+// ── Internet Checker ──────────────────────────────────────────────────
+final checker = BaiomyInternetChecker.instance;
+// Check current status
+bool isOnline = await checker.hasConnection();
+// Listen for real-time changes
+checker.onStatusChange.listen((status) {
+  if (status == BaiomyInternetStatus.online) {
+    print('Back online!');
+  } else {
+    print('Connection lost.');
+  }
+});
+// Use named states
+if (checker.currentStatus == InternetStatus.connected) { ... }
+
+// ── Logger Class ──────────────────────────────────────────────────
+final logger = BaiomyLogger.instance;
+logger.debug('This is a debug message'); // 💡 [DEBUG] ...
+logger.info('User logged in');          // ℹ️ [INFO] ...
+logger.warning('Low storage space');    // ⚠️ [WARNING] ...
+logger.error('Failed to load data', error: e, stackTrace: s); // ❌ [ERROR] ...
+
+// ── Google Maps Extractor ──────────────────────────────────────────
+final url = 'https://maps.app.goo.gl/mWtb4a1cUE9zMWya7';
+// 1. Simple extraction (handles shortening)
+final coords = await BaiomyGoogleMapsExtractor.processGoogleMapsUrl(url);
+if (coords != null) {
+  print('Lat: ${coords['latitude']}, Lng: ${coords['longitude']}');
+}
+// 2. Extract metadata (zoom, place name, etc.)
+final metadata = await BaiomyGoogleMapsExtractor.extractMetadata(url);
+print('Place: ${metadata['placeName']}');
+print('Zoom: ${metadata['zoom']}');
+// 3. Validation
+if (BaiomyGoogleMapsExtractor.isGoogleMapsUrl(url)) {
+  print('Valid Google Maps link');
+}
+
 ```
 
 ### inputDecoration()
@@ -1034,6 +1073,7 @@ lib/
 │   ├── app_input_formatters.dart       → BaiomyInputFormatters
 │   ├── logger_class.dart               → BaiomyLogger
 │   ├── google_maps_extractor.dart      → BaiomyGoogleMapsExtractor
+│   ├── baiomy_internet_checker.dart    → BaiomyInternetChecker
 │   └── text_form_field_decoration.dart → inputDecoration()
 ├── widgets/
 │   ├── loading/
