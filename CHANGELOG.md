@@ -45,3 +45,7 @@
 ## 1.0.0
 
 * ── Add BaiomyInternetChecker
+
+## 1.0.1
+
+* ── Add Batch method to FirestoreRepo
