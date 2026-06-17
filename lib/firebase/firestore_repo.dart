@@ -16,6 +16,8 @@ class BaiomyFirestoreRepo {
 
   FirebaseFirestore get _db => FirebaseFirestore.instance;
 
+  FirebaseFirestore get db => _db;
+
   WriteBatch batch() => _db.batch();
 
   // ---------------------------------------------------------------------------

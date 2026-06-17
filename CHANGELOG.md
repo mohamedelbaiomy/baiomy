@@ -53,3 +53,7 @@
 ## 1.0.2
 
 * ── Add helper method to support pagination with where clauses in FirestoreRepo
+
+## 1.0.3
+
+* ── Add a public getter for _db in FirestoreRepo
