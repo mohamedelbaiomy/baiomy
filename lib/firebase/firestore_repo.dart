@@ -153,6 +153,28 @@ class BaiomyFirestoreRepo {
     return await query.limit(limit).get();
   }
 
+  /// helper method to support pagination with where clauses
+  Future<QuerySnapshot<Map<String, dynamic>>> getQueryWithWhereAndPagination({
+    required String collectionName,
+    required String whereField,
+    required Object? whereValue,
+    required String orderByField,
+    required bool descending,
+    required int limit,
+    DocumentSnapshot<Map<String, dynamic>>? lastDocument,
+  }) async {
+    Query<Map<String, dynamic>> query = _db
+        .collection(collectionName)
+        .where(whereField, isEqualTo: whereValue)
+        .orderBy(orderByField, descending: descending);
+
+    if (lastDocument != null) {
+      query = query.startAfterDocument(lastDocument);
+    }
+
+    return await query.limit(limit).get();
+  }
+
   /// Fetches a paginated list of documents from a sub-collection.
   ///
   /// Pass [lastDocument] to continue from the previous page.

@@ -49,3 +49,7 @@
 ## 1.0.1
 
 * ── Add Batch method to FirestoreRepo
+
+## 1.0.2
+
+* ── Add helper method to support pagination with where clauses in FirestoreRepo
