@@ -57,3 +57,7 @@
 ## 1.0.3
 
 * ── Add a public getter for _db in FirestoreRepo
+
+## 1.0.4
+
+* ── Add a small method to not expose the db getter in FirestoreRepo

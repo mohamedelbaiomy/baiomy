@@ -16,7 +16,7 @@ class BaiomyFirestoreRepo {
 
   FirebaseFirestore get _db => FirebaseFirestore.instance;
 
-  FirebaseFirestore get db => _db;
+  // FirebaseFirestore get db => _db;
 
   WriteBatch batch() => _db.batch();
 
@@ -346,4 +346,10 @@ class BaiomyFirestoreRepo {
 
     return query.snapshots();
   }
+
+  // I prefer not to expose the db getter so i made this method
+  DocumentReference<Map<String, dynamic>> doc(
+    String collectionPath,
+    String documentId,
+  ) => _db.collection(collectionPath).doc(documentId);
 }
