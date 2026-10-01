@@ -7,6 +7,7 @@ InputDecoration inputDecoration(
   Widget? prefixIcon,
   bool isOutlined = false,
   String? helperText,
+  String? suffixText,
 }) => isOutlined
     ? InputDecoration(
         hintText: hintText,
@@ -31,6 +32,7 @@ InputDecoration inputDecoration(
         ),
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
+        suffixText: suffixText,
       )
     : InputDecoration(
         hintText: hintText,
@@ -51,4 +53,5 @@ InputDecoration inputDecoration(
         ),
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
+        suffixText: suffixText,
       );

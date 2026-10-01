@@ -61,3 +61,7 @@
 ## 1.0.4
 
 * ── Add a small method to not expose the db getter in FirestoreRepo
+
+## 1.0.5
+
+* ── Add suffexText in inputDecoration 
